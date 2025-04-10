@@ -1,14 +1,14 @@
 # robot_controller.py
-import numpy as np
+import numpy as np # import numpy
 from neurapy.robot import Robot
-from scipy.spatial.transform import Rotation as R
-import time
-class RobotController:
-    def __init__(self, robot_ip=None):
+from scipy.spatial.transform import Rotation as R # import rotation
+import time # import time
+class RobotController: # define the class
+    def __init__(self, robot_ip=None): # initialize the class
         self.robot = Robot(robot_ip) if robot_ip else Robot()
         self.robot.set_mode("Automatic")
 
-    def pose_to_matrix(self, tcp_pose, gripper_offset_z):
+    def pose_to_matrix(self, tcp_pose, gripper_offset_z): # define the function for pose to matrix
         """
         Converts a TCP pose [X,Y,Z,Roll,Pitch,Yaw] into a 4x4 transformation matrix
         and explicitly accounts for gripper offset along TCP's Z-direction.
@@ -40,11 +40,11 @@ class RobotController:
         # Final transformation (base→gripper_tip)
         T_final = T_tcp @ T_gripper_offset
 
-        return T_final
+        return T_final # return the matrix
 
-    def move_to_pose(self, pose_xyzrpy, speed=0.2):
+    def move_to_pose(self, pose_xyzrpy, speed=0.2): # define the function for move to pose
         
-        
+        # Move to the desired pose
         linear_property = {
             "speed": speed,
             "acceleration": 0.1,
@@ -65,13 +65,13 @@ class RobotController:
             "elevation": 0.0,
             "azimuth": 0.0
         }
-        self.robot.move_linear_from_current_position(**linear_property)
+        self.robot.move_linear_from_current_position(**linear_property) # move to the desired pose
         #time.sleep(2)
-        io_set = self.robot.set_tool_digital_outputs([1.0,0.0,0.0])
-        time.sleep(1)
-        self.robot.move_joint("New_capture")
-        self.robot.move_joint("P30")
-        io_set = self.robot.set_tool_digital_outputs([0.0,1.0,0.0])
-        self.robot.move_joint("New_capture")
-        self.robot.stop()
+        io_set = self.robot.set_tool_digital_outputs([1.0,0.0,0.0]) # set the tool digital outputs
+        time.sleep(1) # set the time
+        self.robot.move_joint("New_capture") # move to the capture position
+        self.robot.move_joint("P30") # move to the P30 position
+        io_set = self.robot.set_tool_digital_outputs([0.0,1.0,0.0]) # set the tool digital outputs
+        self.robot.move_joint("New_capture") # move to the capture position
+        self.robot.stop() # stop the robot
 
