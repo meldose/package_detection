@@ -7,38 +7,38 @@ class ObjectDetector: # create class
     def __init__(self, calibration_matrix_path): # initialize
         self.T_cam_to_tcp = np.load(calibration_matrix_path)
         self.pipeline = rs.pipeline() # setting pipeline for realsense
-        cfg = rs.config()
-        cfg.enable_stream(rs.stream.color, 1280,720,rs.format.bgr8,30)
-        cfg.enable_stream(rs.stream.depth,1280,720,rs.format.z16,30)
-        self.profile = self.pipeline.start(cfg)
+        cfg = rs.config() # setting the configuration
+        cfg.enable_stream(rs.stream.color, 1280,720,rs.format.bgr8,30) # setting the stream
+        cfg.enable_stream(rs.stream.depth,1280,720,rs.format.z16,30) # setting the stream
+        self.profile = self.pipeline.start(cfg) # start the pipeline
         self.intrinsics = self.profile.get_stream(rs.stream.color).as_video_stream_profile().get_intrinsics()
-        self.align = rs.align(rs.stream.color)
+        self.align = rs.align(rs.stream.color) # setting align
 
     def get_detection(self): # function for detection
         frames = self.pipeline.wait_for_frames() # setting frames
         aligned_frames = self.align.process(frames)
         
-        color_frame = aligned_frames.get_color_frame()
-        depth_frame = aligned_frames.get_depth_frame()
+        color_frame = aligned_frames.get_color_frame() # setting color frame
+        depth_frame = aligned_frames.get_depth_frame() # setting depth frame
 
         if not color_frame or not depth_frame:
             return None
 
-        color_image = np.asanyarray(color_frame.get_data())
-        gray = cv2.cvtColor(color_image, cv2.COLOR_BGR2GRAY)
+        color_image = np.asanyarray(color_frame.get_data()) # setting color image
+        gray = cv2.cvtColor(color_image, cv2.COLOR_BGR2GRAY) # setting gray
         _, binary = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY+cv2.THRESH_OTSU)
 
-        contours,_ = cv2.findContours(binary, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+        contours,_ = cv2.findContours(binary, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE) # setting contours
         best_contour = max(contours, key=cv2.contourArea, default=None)
 
         if best_contour is None or cv2.contourArea(best_contour)<1000:
             return None
 
-        rect = cv2.minAreaRect(best_contour)
+        rect = cv2.minAreaRect(best_contour) # setting rect
         (center_x, center_y),_,angle=rect 
         center_x,center_y = int(center_x),int(center_y)
 
-        depth_value = depth_frame.get_distance(center_x,center_y)
+        depth_value = depth_frame.get_distance(center_x,center_y) # setting depth
         if depth_value<=0:
             return None
 
@@ -51,7 +51,7 @@ class ObjectDetector: # create class
             "orientation_deg":angle,
             "color_image": color_image 
         }
-        return detection
+        return detection # return the detection
 
-    def release(self):
+    def release(self): # define the function for release
         self.pipeline.stop() # stop pipeline
