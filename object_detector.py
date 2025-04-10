@@ -15,7 +15,7 @@ class ObjectDetector: # create class
         self.align = rs.align(rs.stream.color)
 
     def get_detection(self): # function for detection
-        frames = self.pipeline.wait_for_frames()
+        frames = self.pipeline.wait_for_frames() # setting frames
         aligned_frames = self.align.process(frames)
         
         color_frame = aligned_frames.get_color_frame()
