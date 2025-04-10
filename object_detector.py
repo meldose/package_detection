@@ -6,7 +6,7 @@ import pyrealsense2 as rs # import pyrealsense
 class ObjectDetector: # create class
     def __init__(self, calibration_matrix_path): # initialize
         self.T_cam_to_tcp = np.load(calibration_matrix_path)
-        self.pipeline = rs.pipeline()
+        self.pipeline = rs.pipeline() # setting pipeline for realsense
         cfg = rs.config()
         cfg.enable_stream(rs.stream.color, 1280,720,rs.format.bgr8,30)
         cfg.enable_stream(rs.stream.depth,1280,720,rs.format.z16,30)
