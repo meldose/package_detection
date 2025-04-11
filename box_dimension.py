@@ -117,9 +117,9 @@
 
 
 # object_detector.py
-import numpy as np
-import cv2
-import pyrealsense2 as rs
+import numpy as np # importing numpy
+import cv2 # importing cv2
+import pyrealsense2 as rs # importing pyrealsense
 from typing import Optional, Dict, Any, Tuple
 import logging
 
