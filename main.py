@@ -33,9 +33,12 @@ def main(): # define the main function
             print(T_tcp_to_base)
 
             pos_cam_hom=np.array([*detection["position_camera"],1]) # setting the position
+            print(pos_cam_hom)
             base_coords=T_tcp_to_base @ detector.T_cam_to_tcp @ pos_cam_hom # getting the base coordinates
+            print(base_coords)
 
             yaw_rad=np.deg2rad(detection["orientation_deg"])
+            print(yaw_rad)
 
             target_pose=[base_coords[0],base_coords[1],base_coords[2],0,np.pi,yaw_rad] # setting the target pose
             print("[TARGET POSE]",target_pose) # print the target pose
