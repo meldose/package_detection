@@ -10,7 +10,8 @@ def main(): # define the main function
     r=Robot()
     r.set_mode("Automatic") # setting the robot to automatic
     r.move_joint("New_capture") # moving the robot to the capture position
-    calibration_matrix = r"C:\Users\HeraldSuriaraj\Documents\neurapy-windows-v4.20.0\neurapy-windows-v4.20.0\cam_to_tcp_transform.npy"
+    #calibration_matrix = r"C:\Users\HeraldSuriaraj\Documents\neurapy-windows-v4.20.0\neurapy-windows-v4.20.0\cam_to_tcp_transform.npy"
+    calibration_matrix = r"/home/hrg/Desktop/package_detection/cam_to_tcp_transform.npy"
     detector=ObjectDetector(calibration_matrix) # setting the detector
     robot_control=RobotController() # setting the robot
     
