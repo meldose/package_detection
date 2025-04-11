@@ -29,7 +29,7 @@ def main(): # define the main function
             # Obtain current TCP pose
             tcp_pose_current=robot_control.robot.get_tcp_pose()
             print(tcp_pose_current)
-            T_tcp_to_base=robot_control.pose_to_matrix(tcp_pose_current,gripper_offset_z=-0.105) # ADJUST GRIPPER OFFSET
+            T_tcp_to_base=robot_control.pose_to_matrix(tcp_pose_current,gripper_offset_z=-0.100) # ADJUST GRIPPER OFFSET
             print(T_tcp_to_base)
 
             pos_cam_hom=np.array([*detection["position_camera"],1]) # setting the position
