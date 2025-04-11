@@ -5,6 +5,8 @@ from neurapy.robot import Robot
 from object_detector import ObjectDetector # import object_detector
 from robot_controller import RobotController # import robot_controller
 
+########### MAIN FUNCTION ###################################
+
 def main(): # define the main function
     # Initialize detector & robot
     r=Robot()
