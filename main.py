@@ -39,7 +39,7 @@ def main(): # define the main function
 
             yaw_rad=np.deg2rad(detection["orientation_deg"])
             print(yaw_rad)
-
+            
             target_pose=[base_coords[0],base_coords[1],base_coords[2],0,np.pi,yaw_rad] # setting the target pose
             print("[TARGET POSE]",target_pose) # print the target pose
 
